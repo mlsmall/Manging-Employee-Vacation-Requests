@@ -106,7 +106,7 @@ def get_employee(employee_id):
         return employees[employee_id]
     raise ValueError(f"Employee not found with ID: {employee_id}")
 ```
-The ```get_employee``` helper function retrieves employee information by their ID. If the employee ID exists in the employees dictionary, it returns the corresponding data. Otherwise, it raises a ValueError.
+The ```get_employee``` helper function retrieves employee information by their ID. If the employee ID exists in the employees' dictionary, it returns the corresponding data. Otherwise, it raises a ValueError.
 
 ```
 
@@ -118,7 +118,7 @@ def is_manager(manager_id):
         return True
     return False
 ```
-The ```is_manager``` function checks if a given ID belongs to a manager. If the manager ID exists in the managers dictionary, it returns True; otherwise, it returns False.
+The ```is_manager``` function checks if a given ID belongs to a manager. If the manager ID exists in the managers' dictionary, it returns True; otherwise, it returns False.
 ## 3. Employee API Endpoints:
 The following functions define endpoints for managing employee vacation requests:
 
@@ -129,7 +129,7 @@ This function handles GET requests to look up vacation requests for a specific e
 @app.get('/employees/<int:employee_id>/requests')
 def get_employee_requests(employee_id):
     """
-    Get endpoint to retrieve vacation requests for a specific employee.
+    GET endpoint to retrieve vacation requests for a specific employee.
     """
     status = request.args.get('status')  # Filter by status
     employee_requests = [req for req in vacation_requests if req['applicant'] == employee_id]
@@ -281,7 +281,7 @@ An empty list ```overlapping_requests``` will be used to store pairs of overlapp
 This condition checks if the current pair of vacation requests meet certain criteria for overlap:
 1. The applicants for both requests are different.
 2. Both requests have been approved.
-3. There is an overlap in the vacation period. There are four possibilities for overlap: 
+3. There is an overlap in the vacation period. 	There are four possibilities for overlap: 
    - request1 starts before request2 and ends after request2 starts or ends
    - request2 starts before request1 and ends after request1 starts or ends.
 
@@ -312,7 +312,7 @@ status = data['status']
 if status not in ['approved', 'rejected']:
     return jsonify({"error": "Invalid status"}), 400
 ```
-After validating the request data, the function checks if the given status is either "approved" or "rejected." If not, an "Invalid status" error response is returned.
+After validating the request data, the function checks if the given status is "approved" or "rejected." If neither, an "invalid status" error response is returned.
 
 ```
 request_to_process = None
@@ -345,4 +345,4 @@ Finally, the code checks if the script is being run directly and starts the Flas
 if __name__ == '__main__':
     app.run(debug=True)
 ```
-Setting ```debug=True``` enables debugging mode, which provide more detailed error messages, and automatically restarts the server when code changes are detected during development.
+Setting ```debug=True``` enables debugging mode, which provides more detailed error messages, and automatically restarts the server when code changes are detected during development.
