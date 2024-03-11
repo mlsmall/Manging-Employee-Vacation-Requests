@@ -1,6 +1,6 @@
 ### Introduction
 
-For this project I create a RESTful API that allows employees from a company to make vacation requests. There is also an API for managers to approve or reject vacation requests, to view all current requests, and to quickly get a list of all vacations requests that are overlapping with each other. The APIs are designed using Python and Flask.
+For this project, I created a RESTful API that allows employees from a company to make vacation requests. There are also API endpoints for managers to approve or reject vacation requests, view all current requests, and get a list of all requests that are overlapping with each other. This API was designed using Python and Flask.
 
 ### Features
 
@@ -15,12 +15,12 @@ For this project I create a RESTful API that allows employees from a company to 
 - API routes that allow managers to:
     - See an overview of all vacation requests.
         - Filter requests by status (approved or pending).
-    - See an overview for each individual employee by employee id.
+    - See an overview for each employee by employee id.
     - See an overview of overlapping vacation requests.
     - Process an individual vacation request and either approve or reject it.
-    - A manager would reject a particular request if there are too many vacation requests overlapping around the same time period. 
+    - A manager would reject a particular request if there are too many vacation requests overlapping around the same dates. 
 
-The vacation requests made by employees have the following JSON structure:
+Vacation requests have the following JSON structure:
 ```
 {
   "request_id": REQUEST_ID,
