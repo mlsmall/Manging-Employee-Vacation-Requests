@@ -294,7 +294,7 @@ If the condition for overlap is met, the pair of overlapping vacation requests i
 Finally, the function returns a JSON response containing the list of overlapping request pairs. 
 
 
-### 4.1 Put Endpoint
+### 4.2 Put Endpoint
 The function ```process_request()``` handles PUT requests to update an individual vacation request by a manager. It checks if the manager is authorized, validates the request data, and updates the status of the request based on the manager's decision.
 
 The function begins by checking if the provided manager_id belongs to a manager using the is_manager function. If the provided ID is not associated with a manager, an "Unauthorized" error response is returned.
