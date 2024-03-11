@@ -126,6 +126,36 @@ def get_manager_requests(manager_id):
 
     return jsonify(manager_requests)
 
+@app.get('/managers/<int:manager_id>/overlapping_requests')
+def get_overlapping_requests(manager_id):
+    """
+    Get an overview of overlapping vacation requests for a specific manager.
+    """
+    if not is_manager(manager_id):
+        # Return unauthorized error if the manager is not authorized
+        return jsonify({"error": "Unauthorized"}), 401
+
+    overlapping_requests = []
+    for i in range(len(vacation_requests)):
+        for j in range(i + 1, len(vacation_requests)):
+            # Compare each pair of vacation requests to check for overlap
+            request1 = vacation_requests[i]
+            request2 = vacation_requests[j]
+            if (
+                request1['applicant'] != request2['applicant'] and
+                request1['status'] == 'approved' and
+                request2['status'] == 'approved' and
+                (
+                    request1['vacation_start_date'] <= request2['vacation_start_date'] <= request1['vacation_end_date'] or
+                    request1['vacation_start_date'] <= request2['vacation_end_date'] <= request1['vacation_end_date'] or
+                    request2['vacation_start_date'] <= request1['vacation_start_date'] <= request2['vacation_end_date'] or
+                    request2['vacation_start_date'] <= request1['vacation_end_date'] <= request2['vacation_end_date']
+                )
+            ):
+                # If requests overlap, add them to the list of overlapping requests
+                overlapping_requests.append((request1, request2)), 200
+
+    return jsonify(overlapping_requests)
 
 @app.put('/managers/<int:manager_id>/requests/<int:request_id>')
 def process_request(manager_id, request_id):
@@ -159,37 +189,6 @@ def process_request(manager_id, request_id):
         return jsonify({"message": f"Request has been {status}"}), 200  # Return success message
     else:
         return jsonify({"error": "Request has already been processed"}), 400  # Return error message
-
-@app.get('/managers/<int:manager_id>/overlapping_requests')
-def get_overlapping_requests(manager_id):
-    """
-    Get an overview of overlapping vacation requests for a specific manager.
-    """
-    if not is_manager(manager_id):
-        # Return unauthorized error if the manager is not authorized
-        return jsonify({"error": "Unauthorized"}), 401
-
-    overlapping_requests = []
-    for i in range(len(vacation_requests)):
-        for j in range(i + 1, len(vacation_requests)):
-            # Compare each pair of vacation requests to check for overlap
-            request1 = vacation_requests[i]
-            request2 = vacation_requests[j]
-            if (
-                request1['applicant'] != request2['applicant'] and
-                request1['status'] == 'approved' and
-                request2['status'] == 'approved' and
-                (
-                    request1['vacation_start_date'] <= request2['vacation_start_date'] <= request1['vacation_end_date'] or
-                    request1['vacation_start_date'] <= request2['vacation_end_date'] <= request1['vacation_end_date'] or
-                    request2['vacation_start_date'] <= request1['vacation_start_date'] <= request2['vacation_end_date'] or
-                    request2['vacation_start_date'] <= request1['vacation_end_date'] <= request2['vacation_end_date']
-                )
-            ):
-                # If requests overlap, add them to the list of overlapping requests
-                overlapping_requests.append((request1, request2))
-
-    return jsonify(overlapping_requests)
 
 
 if __name__ == '__main__':
